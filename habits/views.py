@@ -12,13 +12,13 @@ class HabitsCreateApiView(CreateAPIView):
 
     queryset = Habits.objects.all()
     serializer_class = HabitsSerializer
-    permission_classes = (IsOwner,)
+
 
     def perform_create(self, serialazer):
         """метод автоматического сохранения пользователя в поле владельца"""
-        wont = serialazer.save()
-        wont.owner = self.request.user
-        wont.save()
+        habits = serialazer.save()
+        habits.user = self.request.user
+        habits.save()
 
 
 class HabitsListApiView(ListAPIView):

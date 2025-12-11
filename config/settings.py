@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_yasg',
+    'corsheaders',
     'django_filters',
     'django_celery_beat',
     'habits',
@@ -144,10 +145,21 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 CELERY_BEAT_SCHEDULE = {
     "check_last_login": {
-        "task": "course.tasks.check_last_login",
+        "task": "habits.tasks.check_last_login",
         "schedule": timedelta(days=1),  # Расписание выполнения задачи
     }
 }
 
+CELERY_WORKER_POOL = 'solo'
+
 TELEGRAM_URL = "https://api.telegram.org/bot"
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+
+CORS_ALLOWED_ORIGINS = [
+    "https://read-only.example.com",
+    "https://read-and-write.example.com",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://read-and-write.example.com",
+]
