@@ -53,7 +53,7 @@ class HabitsTestCase(APITestCase):
             {'id': 2, 'place': 'Новое место', 'time': '10:00:00',
              'action': 'Новая тестовая привычка',
              'is_pleasant': False, 'period': 2, 'reward': None, 'execution_time': 15,
-             'is_published': True, 'user': None, 'related_habit': None}
+             'is_published': True, 'user': self.user.pk, 'related_habit': None}
         )
 
         self.assertTrue(

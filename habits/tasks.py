@@ -27,4 +27,4 @@ def send_habit_reminders():
 
     for habit in habits:
         message = f"Мне нужно {habit.action} в {habit.time.strftime('%H:%M')} в {habit.place}"
-        send_telegram_message.delay(habit.user.telegram_chat_id, message)
+        send_telegram_message(habit.user.telegram_chat_id, message)
