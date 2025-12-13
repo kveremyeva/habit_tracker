@@ -11,21 +11,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Debug - Check all secrets
-        run: |
-          echo "=== Available Secrets ==="
-          echo "DOCKER_HUB_USERNAME: '${{ secrets.DOCKER_HUB_USERNAME }}'"
-          echo "DOCKER_HUB_ACCESS_TOKEN exists: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN != '' }}"
-          echo "SSH_USER: '${{ secrets.SSH_USER }}'"
-          echo "SERVER_IP: '${{ secrets.SERVER_IP }}'"
-          echo "SSH_KEY exists: ${{ secrets.SSH_KEY != '' }}"
-
-          echo "=== GitHub Context ==="
-          echo "Event: ${{ github.event_name }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "SHA: ${{ github.sha }}"
-          echo "Repository: ${{ github.repository }}"  
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
