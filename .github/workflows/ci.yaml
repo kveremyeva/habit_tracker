@@ -69,12 +69,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Docker Login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "$DOCKER_PASS" | docker login -u "DOCKER_HUB_USERNAME" --password-stdin
-
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
