@@ -69,23 +69,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Test Login with GitHub Secret
-        run: |
-          echo "Testing token from GitHub Secrets..."
-          echo "Token length: ${#DOCKER_HUB_ACCESS_TOKEN}"
-          
-          # Попробуем залогиниться
-          echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | \
-            docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-          
-          echo "✅ Success! Now testing push..."
-          
-          # Попробуем сделать теговый образ и запушить
-          docker pull hello-world
-          docker tag hello-world ${{ secrets.DOCKER_HUB_USERNAME }}/test-token-check:latest
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/test-token-check:latest
-          
-        
 
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
