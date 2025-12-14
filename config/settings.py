@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
@@ -126,6 +127,8 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -146,7 +149,7 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 CELERY_BEAT_SCHEDULE = {
     "send_habit_reminders": {
-        "task": "habits.tasks.send_habit_reminders", #Путь к задаче
+        "task": "habits.tasks.send_habit_reminders",  # Путь к задаче
         "schedule": timedelta(days=1),  # Расписание выполнения задачи
     }
 }
@@ -164,3 +167,11 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://read-and-write.example.com",
 ]
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'test_db.sqlite3',
+        }
+    }

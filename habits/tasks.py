@@ -1,5 +1,3 @@
-from datetime import datetime, timedelta
-
 from celery import shared_task
 
 from habits.models import Habits
