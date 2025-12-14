@@ -1,0 +1,27 @@
+name: Test Secrets Directly
+on: [workflow_dispatch] # Только ручной запуск
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug and Test Login
+        run: |
+          echo "🔍 Checking secrets..."
+          echo "Username: '${{ secrets.DOCKER_HUB_USERNAME }}'"
+          echo "Token exists (not empty): ${{ secrets.DOCKER_HUB_ACCESS_TOKEN != '' }}"
+          echo "Token length: ${#DOCKER_HUB_ACCESS_TOKEN}"
+          
+          if [ -z "${{ secrets.DOCKER_HUB_USERNAME }}" ]; then
+            echo "❌ ERROR: DOCKER_HUB_USERNAME is EMPTY"
+            exit 1
+          fi
+          
+          if [ -z "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" ]; then
+            echo "❌ ERROR: DOCKER_HUB_ACCESS_TOKEN is EMPTY"
+            exit 1
+          fi
+          
+          echo "🚀 Attempting Docker login..."
+          echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+          echo "✅ SUCCESS! Docker login worked."
