@@ -56,7 +56,7 @@ jobs:
 
     - name: Run tests with SQLite
       env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY || 'django-insecure-ci-test-key-12345' }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         python manage.py test
 
