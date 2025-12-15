@@ -49,6 +49,21 @@ jobs:
         python manage.py test
 
 
+  debug:
+    runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+    steps:
+      - name: Check secrets
+        run: |
+          echo "SECRET_KEY: ${SECRET_KEY:+set}/${SECRET_KEY:-unset}"
+          echo "SECRET_KEY length: ${#SECRET_KEY}"
+          echo "POSTGRES_USER: ${POSTGRES_USER:+set}/${POSTGRES_USER:-unset}"
+          echo "DOCKER_HUB_USERNAME: ${DOCKER_HUB_USERNAME:+set}/${DOCKER_HUB_USERNAME:-unset}"
+
+
   build:
     runs-on: ubuntu-latest
     needs: test
@@ -56,15 +71,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-
-
-      - name: Debug secrets presence
-        run: |
-          echo "SECRET_KEY: ${SECRET_KEY:+set}/${SECRET_KEY:-unset}"
-          echo "SECRET_KEY length: ${#SECRET_KEY}"
-          echo "POSTGRES_USER: ${POSTGRES_USER:+set}/${POSTGRES_USER:-unset}"
-          echo "DOCKER_HUB_USERNAME: ${DOCKER_HUB_USERNAME:+set}/${DOCKER_HUB_USERNAME:-unset}"
-          
 
       - name: Login in DockerHub
         run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
